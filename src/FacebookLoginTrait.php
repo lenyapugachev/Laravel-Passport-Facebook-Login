@@ -57,6 +57,13 @@ trait FacebookLoginTrait
                 $user = $userModel::where($facebook_id_column, $fbUser['id'])->first();
 
                 if (!$user) {
+                    $user = $userModel::where($email_column, $fbUser['email'])->first();
+
+                    $user->{$facebook_id_column} = $fbUser['id'];
+                    $user->save();
+                }
+
+                if (!$user) {
                     $user = new $userModel();
                     $user->{$facebook_id_column} = $fbUser['id'];
 
